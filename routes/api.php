@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 //Create a product
 // Route::post('/products', [ProductController::class, 'store']);
 
-// Route::resource('')
+Route::resource('products', ProductController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
