@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,8 @@ Route::get('/products/searchById/{id}', [ProductController::class, 'searchByProd
 ////Search by product name
 Route::get('/products/searchByName/{productName}', [ProductController::class, 'searchByProductName']);
 
+////Register
+Route::post('/register', [AuthController::class, 'userRegister']);
 
 //Protected routes
 Route::group (['middleware' => ['auth:sanctum']] , function () {
