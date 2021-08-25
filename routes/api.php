@@ -4,28 +4,17 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-//Get all products
-// Route::get('/products', [ProductController::class, 'index']);
-
-// Get one product
-// Route::get('/products/{$id}', [ProductController::class, 'show']);
-
-//Create a product
-// Route::post('/products', [ProductController::class, 'store']);
-
+//Public routes
 Route::resource('products', ProductController::class);
 
-// Search by product name
-Route::get('/products/searchByName/{productName}', [ProductController::class, 'searchByProductName']);
-
-// // Search by product id
-// Route::get('/products/searchById/{id}', [ProductController::class, 'searchByProductId']);
-
-//Protect
+//Protected routes
 Route::group (['middleware' => ['auth:sanctum']] , function () {
 
     // Search by product id
     Route::get('/products/searchById/{id}', [ProductController::class, 'searchByProductId']);
+
+    // Search by product name
+    Route::get('/products/searchByName/{productName}', [ProductController::class, 'searchByProductName']);
 
 });
 
