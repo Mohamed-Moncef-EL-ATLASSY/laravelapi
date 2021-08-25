@@ -18,10 +18,17 @@ Route::resource('products', ProductController::class);
 // Search by product name
 Route::get('/products/searchByName/{productName}', [ProductController::class, 'searchByProductName']);
 
-// Search by product id
-Route::get('/products/searchById/{id}', [ProductController::class, 'searchByProductId']);
+// // Search by product id
+// Route::get('/products/searchById/{id}', [ProductController::class, 'searchByProductId']);
 
+//Protect
+Route::group (['middleware' => ['auth:sanctum']] , function () {
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    // Search by product id
+    Route::get('/products/searchById/{id}', [ProductController::class, 'searchByProductId']);
+
 });
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
