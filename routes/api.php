@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 //Public routes
 
 ////Get one product
-Route::get('/products/{$id}', [ProductController::class, 'show']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
 
 ////Get all products
 Route::get('/products', [ProductController::class, 'index']);
@@ -24,6 +24,12 @@ Route::group (['middleware' => ['auth:sanctum']] , function () {
 
     //Create a product
     Route::post('/products', [ProductController::class, 'store']);
+
+    //Update a product
+    Route::put('/products/{id}', [ProductController::class, 'update']);
+
+    //Delete a product
+    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
 });
 
