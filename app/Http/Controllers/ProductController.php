@@ -68,6 +68,42 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Product::destroy($id);
     }
+
+
+    /**
+     * Searches resource from storage by Product name.
+     *
+     * @param  str  $productName
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByProductName($productName)
+    {
+        return Product::where('productName', 'like' , '%' . $productName . '%' )->get();
+    }
+
+
+    /**
+     * Searches resource from storage by Product id.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByProductId($id)
+    {
+        return Product::where('id', $id)->get();
+    }
+
+
+    // /**
+    //  * Searches resource from storage by Product price.
+    //  *
+    //  * @param  int  $productPrice
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($id)
+    // {
+    //     return Product::destroy($id);
+    // }
 }
