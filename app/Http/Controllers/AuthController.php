@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
@@ -14,14 +13,14 @@ class AuthController extends Controller
             'userFirstName' => 'required|string',
             'userLastName'  => 'required|string',
             'userEmail'     => 'required|string|unique:users,userEmail',
-            'userPassword'  => 'required|string|confirmed',
+            'password'      => 'required|string|confirmed',
         ]);
 
         $user = User::create([
             'userFirstName' => $fields['userFirstName'],
             'userLastName'  => $fields['userLastName'],
             'userEmail'     => $fields['userEmail'],
-            'userPassword'  => bcrypt($fields['userPassword']),
+            'password'      => bcrypt($fields['password']),
         ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -31,5 +30,37 @@ class AuthController extends Controller
         ];
 
         return response($response, 201);
+    }
+
+
+    public function userLogin(Request $request){
+        $fields = $request->validate([
+            'userEmail'     => 'required|string',
+            'password'      => 'required|string',
+        ]);
+
+        $user = User::where('userEmail', $fields['userEmail'])->first();
+        if(!$user || !Hash::check($fields['password'], $user->password)) {
+            return response([
+                'message' => 'User not existing!'
+            ], 401);
+        }
+
+        $token = $user->createToken('myapptoken')->plainTextToken;
+        $response = [
+            'user' => $user,
+            'token' => $token,
+        ];
+
+        return response($response, 201);
+    }
+
+
+    public function userLogout(Request $request){
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'Logged Out successfully/ Token destroyed successfully'
+        ];
     }
 }
